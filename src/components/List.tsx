@@ -13,6 +13,12 @@ export const Card: FC<CardProps> = ({ title, description }) => {
     <div className="border border-black px-2 py-1.5">
       <div className="flex justify-between mb-0.5">
         <h1 className="font-medium">{title}</h1>
+         {/* <ToggleButton
+          isActive={visible}
+          onToggle={() => setVisible(!visible)}
+          active={<ChevronUpIcon />}
+          inactive={<ChevronDownIcon/>}
+        /> */}
         <div className="flex">
           <ExpandButton>
             <ChevronUpIcon />

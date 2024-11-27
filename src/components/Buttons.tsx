@@ -18,3 +18,26 @@ export const DeleteButton: FC<Omit<ButtonProps, "children">> = (props) => {
     </button>
   );
 };
+
+type ToggleButtonProps = {
+  isActive: boolean;
+  onToggle: () => void;
+  active?: React.ReactNode;
+  inactive?: React.ReactNode;
+};
+
+export const ToggleButton: React.FC<ToggleButtonProps> = ({
+  isActive,
+  onToggle,
+  active,
+  inactive,
+}) => {
+  return (
+    <button
+      onClick={onToggle}
+      className={"px-4 py-2 rounded transition-colors"}
+    >
+      {isActive ? active : inactive}
+    </button>
+  );
+};
