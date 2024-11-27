@@ -1,16 +1,17 @@
 import { FC, useState } from "react";
-import { ListItem } from "../api/getListData";
+import { ListItem } from "../app/api/getListData";
 import { DeleteButton, ExpandButton } from "./Buttons";
 import { ChevronUpIcon } from "./icons";
 
 type CardProps = {
   title: ListItem["title"];
-  description: ListItem["description"];
+  description?: ListItem["description"];
   isDeleted?: boolean;
   onDelete?: () => void;
+  onRevert?: () => void
 };
 
-export const Card: FC<CardProps> = ({ title, description, isDeleted, onDelete }) => {
+export const Card: FC<CardProps> = ({ title, description, isDeleted, onDelete, onRevert }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -34,6 +35,14 @@ export const Card: FC<CardProps> = ({ title, description, isDeleted, onDelete })
             </ExpandButton>
             <DeleteButton onClick={onDelete} />
           </div>
+        )}
+        {isDeleted && (
+          <button
+            className="text-blue-500 text-sm"
+            onClick={onRevert}
+          >
+            Revert
+          </button>
         )}
       </div>
 

@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { ListItem, useGetListData } from "../api/getListData";
+import { listApi } from "../app/api/getListData";
 import { Card } from "./List";
 import { Spinner } from "./Spinner";
 import { useCardStore } from "../store/card";
 
 export const Entrypoint = () => {
-  const [visibleCards, setVisibleCards] = useState<ListItem[]>([]);
   const [revealDeleted, setRevealDeleted] = useState(false);
-  const { deletedCards, deleteCard, setActiveCards } = useCardStore();
-  const listQuery = useGetListData();
-
+  const { deletedCards, deleteCard, revertCard, setActiveCards,activeCards } = useCardStore();
+  const listQuery = listApi();
   useEffect(() => {
     if (listQuery.data && listQuery.data.length > 0) {
       setActiveCards(listQuery.data);
@@ -21,8 +19,8 @@ export const Entrypoint = () => {
       return;
     }
 
-    setVisibleCards(listQuery.data?.filter((item) => item.isVisible) ?? []);
-  }, [listQuery.data, listQuery.isLoading, deletedCards]);
+    setActiveCards(listQuery.data?.filter((item) => item.isVisible) ?? []);
+  }, [listQuery.data, listQuery.isLoading, deletedCards, revertCard]);
 
   if (listQuery.isLoading || listQuery.isFetching) {
     return <Spinner />;
@@ -35,14 +33,14 @@ export const Entrypoint = () => {
   return (
     <div className="flex gap-x-16">
       <div className="w-full max-w-xl">
-        <h1 className="mb-1 font-medium text-lg">My Awesome List ({visibleCards.length})</h1>
+        <h1 className="mb-1 font-medium text-lg">My Awesome List ({activeCards.length})</h1>
         <div className="flex flex-col gap-y-3">
-          {visibleCards.map((card) => (
-            <Card 
-             key={card.id}
-             title={card.title} 
-             description={card.description} 
-             onDelete={() => (deleteCard(card.id), card.isVisible = false)} />
+          {activeCards.map((card) => (
+            <Card
+              key={card.id}
+              title={card.title}
+              description={card.description}
+              onDelete={() => (deleteCard(card.id), card.isVisible = false)} />
           ))}
         </div>
       </div>
@@ -74,6 +72,7 @@ export const Entrypoint = () => {
                 title={card.title}
                 isDeleted={true}
                 description={card.description}
+                onRevert={() => revertCard(card.id)}
               />
             ))}
         </div>
