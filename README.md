@@ -32,3 +32,7 @@
 
 You may leave a message explaining your coding choices, but it's not necessary.
 Testing framework isn't installed, so instead just explain whether you think it's a good or bad idea to write tests for this feature or how to approach it.
+
+### Additional-Tests
+
+It would be beneficial to test these features, especially the card expand/collapse animations, delete and restoreoperations, and state management. Unit tests can ensure that these functionalities work correctly.
